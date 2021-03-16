@@ -25,7 +25,7 @@ public class CommunityUtil {
   }
 
   // MD5 encrypt
-  public static  String md5Encrypt(String key) {
+  public static String md5Encrypt(String key) {
       if (StringUtils.isBlank(key)) {
           return null;
       }
