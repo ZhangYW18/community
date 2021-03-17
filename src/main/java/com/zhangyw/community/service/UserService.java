@@ -104,7 +104,7 @@ public class UserService {
         return constant.ACTIVATION_SUCCESS;
     }
 
-    public Map<String, Object> login(String username, String password, int expiredSeconds) {
+    public Map<String, Object> login(String username, String password, long expiredSeconds) {
         Map<String, Object> map = new HashMap<>();
         // handle invalid situations
         if (StringUtils.isBlank(username)) {
@@ -142,6 +142,8 @@ public class UserService {
         loginTicket.setTicket(CommunityUtil.generateUUID());
         loginTicket.setStatus(0);
         loginTicket.setExpired(new Date(System.currentTimeMillis() + expiredSeconds * 1000));
+        System.out.println("expiredSeconds" + expiredSeconds);
+        System.out.println("time: " + loginTicket.getExpired());
         loginTicketMapper.insertLoginTicket(loginTicket);
 
         map.put("ticket", loginTicket.getTicket());
@@ -150,5 +152,9 @@ public class UserService {
 
     public void logout(String ticket) {
         loginTicketMapper.updateStatus(ticket, 1);
+    }
+
+    public LoginTicket findLoginTicket(String ticket) {
+        return loginTicketMapper.selectByTicket(ticket);
     }
 }

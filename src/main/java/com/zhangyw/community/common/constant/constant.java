@@ -12,6 +12,6 @@ public interface constant {
     /**
      *  用户登录状态保存时间，分为勾选/不勾选"记住我"
      */
-    int REMEMBER_EXPIRED_SECONDS = 3600*24*30;
-    int DEFAULT_EXPIRED_SECONDS = 3600*12;
+    long REMEMBER_EXPIRED_SECONDS = 3600*24*30;
+    long DEFAULT_EXPIRED_SECONDS = 3600*12;
 }

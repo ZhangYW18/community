@@ -116,12 +116,12 @@ public class LoginController {
         }
 
         // 检查账号,密码
-        int expiredSeconds = rememberMe ? constant.REMEMBER_EXPIRED_SECONDS : constant.DEFAULT_EXPIRED_SECONDS;
+        long expiredSeconds = rememberMe ? constant.REMEMBER_EXPIRED_SECONDS : constant.DEFAULT_EXPIRED_SECONDS;
         Map<String, Object> map = userService.login(username, password, expiredSeconds);
         if (map.containsKey("ticket")) {
             Cookie cookie = new Cookie("ticket", map.get("ticket").toString());
             cookie.setPath(contextPath);
-            cookie.setMaxAge(expiredSeconds);
+            cookie.setMaxAge((int)expiredSeconds);
             response.addCookie(cookie);
             return "redirect:/index";
         } else {
