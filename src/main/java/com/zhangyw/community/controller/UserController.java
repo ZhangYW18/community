@@ -1,5 +1,6 @@
 package com.zhangyw.community.controller;
 
+import com.zhangyw.community.annotation.LoginRequired;
 import com.zhangyw.community.entity.User;
 import com.zhangyw.community.service.UserService;
 import com.zhangyw.community.util.CommunityUtil;
@@ -43,11 +44,13 @@ public class UserController {
     @Autowired
     private HostHolder hostHolder;
 
+    @LoginRequired
     @RequestMapping(path = "/setting", method = RequestMethod.GET)
     public String getSettingPage() {
         return "/site/setting";
     }
 
+    @LoginRequired
     @RequestMapping(path = "/upload", method = RequestMethod.POST)
     public String uploadHeader(MultipartFile headerImage, Model model) {
         if (headerImage == null) {
