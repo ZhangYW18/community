@@ -14,4 +14,10 @@ public interface constant {
      */
     long REMEMBER_EXPIRED_SECONDS = 3600*24*30;
     long DEFAULT_EXPIRED_SECONDS = 3600*12;
+
+    /**
+     *  评论回复对象的类型，0
+     */
+    int ENTITY_TYPE_POST = 1;
+    int ENTITY_TYPE_COMMENT = 2;
 }
