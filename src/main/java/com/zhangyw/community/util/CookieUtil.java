@@ -12,7 +12,8 @@ public class CookieUtil {
 
         Cookie[] cookies = request.getCookies();
         if (cookies == null) {
-            throw new IllegalArgumentException("Cookie is empty");
+            return null;
+            // throw new IllegalArgumentException("Cookie is empty");
         }
         for (Cookie cookie:cookies) {
             if (cookie.getName().equals(name)) {
