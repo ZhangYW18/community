@@ -30,6 +30,7 @@ public class ServiceLogAspect {
         HttpServletRequest request = attributes.getRequest();
         String ip = request.getRemoteHost();
         String now = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        // get class name and method name
         String target = joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName();
         logger.info(String.format("User [%s] visited [%s] at [%s].", ip, target, now));
     }
