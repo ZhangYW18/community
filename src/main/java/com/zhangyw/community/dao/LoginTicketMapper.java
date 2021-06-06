@@ -3,7 +3,9 @@ package com.zhangyw.community.dao;
 import com.zhangyw.community.entity.LoginTicket;
 import org.apache.ibatis.annotations.*;
 
+// Not recommended to use
 @Mapper
+@Deprecated
 public interface LoginTicketMapper {
 
     @Insert({
