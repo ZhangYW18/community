@@ -21,4 +21,16 @@ public interface constant {
     int ENTITY_TYPE_POST = 1;
     int ENTITY_TYPE_COMMENT = 2;
     int ENTITY_TYPE_USER = 3;
+
+    /**
+     * 主题: 评论/点赞/关注
+     */
+    String TOPIC_COMMENT = "comment";
+    String TOPIC_LIKE = "like";
+    String TOPIC_FOLLOW = "follow";
+
+    /**
+     * 系统用户ID
+     */
+    int SYSTEM_USER_ID = 1;
 }

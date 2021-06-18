@@ -1,8 +1,10 @@
 package com.zhangyw.community.controller;
 
 import com.zhangyw.community.common.constant.constant;
+import com.zhangyw.community.entity.Event;
 import com.zhangyw.community.entity.Page;
 import com.zhangyw.community.entity.User;
+import com.zhangyw.community.event.EventProducer;
 import com.zhangyw.community.service.FollowService;
 import com.zhangyw.community.service.UserService;
 import com.zhangyw.community.util.HostHolder;
@@ -29,12 +31,24 @@ public class FollowController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private EventProducer eventProducer;
+
     @RequestMapping(path = "/follow", method = RequestMethod.POST)
     @ResponseBody
     public String follow(int entityType, int entityId) {
         User user = hostHolder.getUser();
 
         followService.follow(user.getId(), entityType, entityId);
+
+        // 触发关注事件
+        Event event = new Event()
+                .setTopic(constant.TOPIC_FOLLOW)
+                .setUserId(hostHolder.getUser().getId())
+                .setEntityType(entityType)
+                .setEntityId(entityId)
+                .setEntityUserId(entityId);
+        eventProducer.fireEvent(event);
 
         return JsonUtil.getJSONString(0, "已关注!");
     }
