@@ -1,10 +1,8 @@
 package com.zhangyw.community.controller;
 
 import com.zhangyw.community.common.constant.constant;
-import com.zhangyw.community.entity.Comment;
-import com.zhangyw.community.entity.DiscussPost;
-import com.zhangyw.community.entity.Page;
-import com.zhangyw.community.entity.User;
+import com.zhangyw.community.entity.*;
+import com.zhangyw.community.event.EventProducer;
 import com.zhangyw.community.service.CommentService;
 import com.zhangyw.community.service.DiscussPostService;
 import com.zhangyw.community.service.LikeService;
@@ -40,6 +38,9 @@ public class DiscussPostController {
     @Autowired
     private LikeService likeService;
 
+    @Autowired
+    private EventProducer eventProducer;
+
     @RequestMapping(path = "/add", method = RequestMethod.POST)
     @ResponseBody
     public String addDiscussPost(String title, String content) {
@@ -55,7 +56,14 @@ public class DiscussPostController {
         post.setCreateTime(new Date());
         discussPostService.addDiscussPost(post);
 
-        // 报错的情况,将来统一处理.
+        // fire an event and save the post in ElasticSearch later
+        Event event = new Event()
+                .setTopic(constant.TOPIC_PUBLISH)
+                .setUserId(user.getId())
+                .setEntityType(constant.ENTITY_TYPE_POST)
+                .setEntityId(post.getId());
+        eventProducer.fireEvent(event);
+
         return JsonUtil.getJSONString(0, "发布成功!");
     }
 

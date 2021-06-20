@@ -76,6 +76,13 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-elasticsearch -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-elasticsearch</artifactId>
+			<version>4.0.0.RELEASE</version>
+		</dependency>
+
 		<dependency>
 			<groupId>io.projectreactor</groupId>
 			<artifactId>reactor-test</artifactId>

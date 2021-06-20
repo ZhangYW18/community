@@ -54,6 +54,16 @@ public class CommentController {
         }
         eventProducer.fireEvent(event);
 
+        // Only add comments of posts to ElasticSearch indices
+        if (comment.getEntityType() == constant.ENTITY_TYPE_POST) {
+            event = new Event()
+                    .setTopic(constant.TOPIC_PUBLISH)
+                    .setUserId(comment.getUserId())
+                    .setEntityType(constant.ENTITY_TYPE_POST)
+                    .setEntityId(discussPostId);
+            eventProducer.fireEvent(event);
+        }
+
         return "redirect:/discuss/detail/" + discussPostId;
     }
 
