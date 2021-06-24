@@ -1,8 +1,16 @@
 package com.zhangyw.community.entity;
 
-import java.util.Date;
+import com.zhangyw.community.common.constant.constant;
+import org.springframework.security.core.GrantedAuthority;
 
-public class User {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+
+public class User implements Serializable {
+    private static final long serialVersionUID = -4375541269266701064L;
 
     private int id;
     private String username;
@@ -25,6 +33,24 @@ public class User {
 
     public String getUsername() {
         return username;
+    }
+
+    public Collection<? extends GrantedAuthority> getAuthorities(int type) {
+        List<GrantedAuthority> list = new ArrayList<>();
+        list.add(new GrantedAuthority() {
+            @Override
+            public String getAuthority() {
+                switch (type) {
+                    case 1:
+                        return constant.AUTHORITY_ADMIN;
+                    case 2:
+                        return constant.AUTHORITY_MODERATOR;
+                    default:
+                        return constant.AUTHORITY_USER;
+                }
+            }
+        });
+        return list;
     }
 
     public void setUsername(String username) {
