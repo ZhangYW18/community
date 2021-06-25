@@ -143,7 +143,7 @@ public class LoginController {
         }
 
         // 检查账号,密码
-        long expiredSeconds = rememberMe ? constant.REMEMBER_EXPIRED_SECONDS : constant.DEFAULT_EXPIRED_SECONDS;
+        long expiredSeconds = rememberMe ? constant.REMEMBER_ME_EXPIRED_SECONDS : constant.DEFAULT_LOGIN_EXPIRED_SECONDS;
         Map<String, Object> map = userService.login(username, password, expiredSeconds);
         if (map.containsKey("ticket")) {
             Cookie cookie = new Cookie("ticket", map.get("ticket").toString());

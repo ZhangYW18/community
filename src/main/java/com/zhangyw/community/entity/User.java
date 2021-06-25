@@ -42,9 +42,9 @@ public class User implements Serializable {
             public String getAuthority() {
                 switch (type) {
                     case 1:
-                        return constant.AUTHORITY_ADMIN;
-                    case 2:
                         return constant.AUTHORITY_MODERATOR;
+                    case 2:
+                        return constant.AUTHORITY_ADMIN;
                     default:
                         return constant.AUTHORITY_USER;
                 }

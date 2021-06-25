@@ -71,6 +71,9 @@ public class DiscussPostController {
     public String getDiscussPost(@PathVariable("discussPostId") int discussPostId, Model model, Page page) {
         // 帖子
         DiscussPost post = discussPostService.findDiscussPostById(discussPostId);
+        if (post.getStatus() == constant.DISCUSS_POST_STATUS_DELETED) {
+            return "redirect:/denied";
+        }
         model.addAttribute("post", post);
         // 作者
         User user = userService.findUserById(post.getUserId());
@@ -150,6 +153,65 @@ public class DiscussPostController {
         model.addAttribute("comments", commentVoList);
 
         return "/site/discuss-detail";
+    }
+
+    // 置顶
+    @RequestMapping(path = "/sticky", method = RequestMethod.POST)
+    @ResponseBody
+    public String setSticky(int id, int postType) {
+        int newType = (postType == constant.DISCUSS_POST_TYPE_DEFAULT) ? constant.DISCUSS_POST_TYPE_STICKY : constant.DISCUSS_POST_TYPE_DEFAULT;
+        discussPostService.updateType(id, newType);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("type", newType);
+
+        // 触发发帖事件
+        Event event = new Event()
+                .setTopic(constant.TOPIC_PUBLISH)
+                .setUserId(hostHolder.getUser().getId())
+                .setEntityType(constant.ENTITY_TYPE_POST)
+                .setEntityId(id);
+        eventProducer.fireEvent(event);
+
+        return JsonUtil.getJSONString(0, null, map);
+    }
+
+    // 加精
+    @RequestMapping(path = "/digested", method = RequestMethod.POST)
+    @ResponseBody
+    public String setDigested(int id, int postStatus) {
+        int newStatus = (postStatus == constant.DISCUSS_POST_STATUS_DEFAULT) ? constant.DISCUSS_POST_STATUS_DIGESTED : constant.DISCUSS_POST_STATUS_DEFAULT;
+        discussPostService.updateStatus(id, newStatus);
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", newStatus);
+
+        // 触发发帖事件
+        Event event = new Event()
+                .setTopic(constant.TOPIC_PUBLISH)
+                .setUserId(hostHolder.getUser().getId())
+                .setEntityType(constant.ENTITY_TYPE_POST)
+                .setEntityId(id);
+        eventProducer.fireEvent(event);
+
+        return JsonUtil.getJSONString(0, null, map);
+    }
+
+    // 删除
+    @RequestMapping(path = "/delete", method = RequestMethod.POST)
+    @ResponseBody
+    public String setDelete(int id) {
+        discussPostService.updateStatus(id, constant.DISCUSS_POST_STATUS_DELETED);
+
+        // 触发删帖事件
+        Event event = new Event()
+                .setTopic(constant.TOPIC_DELETE)
+                .setUserId(hostHolder.getUser().getId())
+                .setEntityType(constant.ENTITY_TYPE_POST)
+                .setEntityId(id);
+        eventProducer.fireEvent(event);
+
+        return JsonUtil.getJSONString(0);
     }
 
 }

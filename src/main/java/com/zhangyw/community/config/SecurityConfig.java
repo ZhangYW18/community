@@ -1,5 +1,6 @@
 package com.zhangyw.community.config;
 
+import com.zhangyw.community.common.constant.constant;
 import com.zhangyw.community.util.JsonUtil;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDeniedException;
@@ -39,7 +40,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/like",
                         "/follow",
                         "/unfollow"
-                ).authenticated()
+                )
+                .authenticated()
+                .antMatchers(
+                        "/discuss/sticky",
+                        "/discuss/digest"
+                )
+                .hasAnyAuthority(
+                        constant.AUTHORITY_MODERATOR,
+                        constant.AUTHORITY_ADMIN
+                )
+                .antMatchers(
+                        "/discuss/delete"
+                )
+                .hasAnyAuthority(
+                        constant.AUTHORITY_ADMIN
+                )
                 .anyRequest().permitAll()
                 // If CSRF prevention is enabled in Spring Security, we have to add the CSRF token in every request.
                 .and().csrf().disable();

@@ -1,3 +1,7 @@
+$(function(){
+    $("#deleteBtn").click(setDelete);
+});
+
 function like(btn, entityType, entityId, entityUserId, postId) {
     $.post(
         CONTEXT_PATH + "/like",
@@ -12,6 +16,64 @@ function like(btn, entityType, entityId, entityUserId, postId) {
             if(data.code == 0) {
                 $(btn).children("i").text(data.likeCount);
                 $(btn).children("b").text(data.likeStatus==1?'已赞':"赞");
+            } else {
+                alert(data.msg);
+            }
+        }
+    );
+}
+
+// 置顶
+function setSticky(btn, id) {
+    $.post(
+        CONTEXT_PATH + "/discuss/sticky",
+        {
+            "id": id,
+            "postType": $("#postType").val(),
+        },
+        function(data) {
+            data = $.parseJSON(data);
+            if(data.code == 0) {
+                $(btn).text(data.type==1?'取消置顶':'置顶');
+                $("#postType").attr("value", data.type);
+            } else {
+                alert(data.msg);
+            }
+        }
+    );
+}
+
+// 加精
+function setDigested(btn, id) {
+    $.post(
+        CONTEXT_PATH + "/discuss/digested",
+        {
+            "id": id,
+            "postStatus": $("#postStatus").val(),
+        },
+        function(data) {
+            data = $.parseJSON(data);
+            if(data.code == 0) {
+                $(btn).text(data.status==1?'取消加精':'加精');
+                $("#postStatus").attr("value", data.status);
+            } else {
+                alert(data.msg);
+            }
+        }
+    );
+}
+
+// 删除
+function setDelete() {
+    $.post(
+        CONTEXT_PATH + "/discuss/delete",
+        {
+            "id":$("#postId").val(),
+        },
+        function(data) {
+            data = $.parseJSON(data);
+            if(data.code == 0) {
+                location.href = CONTEXT_PATH + "/index";
             } else {
                 alert(data.msg);
             }
