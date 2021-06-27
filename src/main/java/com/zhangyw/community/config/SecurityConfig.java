@@ -35,7 +35,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/discuss/add",
                         "/comment/add/**",
                         "/letter/**",
-                        "/letter/*/**",
                         "/notice/**",
                         "/like",
                         "/follow",
@@ -51,7 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         constant.AUTHORITY_ADMIN
                 )
                 .antMatchers(
-                        "/discuss/delete"
+                        "/discuss/delete",
+                        "/data/**"
                 )
                 .hasAnyAuthority(
                         constant.AUTHORITY_ADMIN
