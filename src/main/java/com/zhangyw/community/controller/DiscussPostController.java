@@ -9,7 +9,9 @@ import com.zhangyw.community.service.LikeService;
 import com.zhangyw.community.service.UserService;
 import com.zhangyw.community.util.HostHolder;
 import com.zhangyw.community.util.JsonUtil;
+import com.zhangyw.community.util.RedisKeyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,6 +43,9 @@ public class DiscussPostController {
     @Autowired
     private EventProducer eventProducer;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @RequestMapping(path = "/add", method = RequestMethod.POST)
     @ResponseBody
     public String addDiscussPost(String title, String content) {
@@ -63,6 +68,10 @@ public class DiscussPostController {
                 .setEntityType(constant.ENTITY_TYPE_POST)
                 .setEntityId(post.getId());
         eventProducer.fireEvent(event);
+
+        // 计算帖子分数
+        String redisKey = RedisKeyUtil.getPostScoreKey();
+        redisTemplate.opsForSet().add(redisKey, post.getId());
 
         return JsonUtil.getJSONString(0, "发布成功!");
     }
@@ -193,6 +202,10 @@ public class DiscussPostController {
                 .setEntityType(constant.ENTITY_TYPE_POST)
                 .setEntityId(id);
         eventProducer.fireEvent(event);
+
+        // 计算帖子分数
+        String redisKey = RedisKeyUtil.getPostScoreKey();
+        redisTemplate.opsForSet().add(redisKey, id);
 
         return JsonUtil.getJSONString(0, null, map);
     }
