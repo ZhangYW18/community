@@ -127,7 +127,8 @@ public class LoginController {
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     public String login(String username, String password, String code, boolean rememberMe,
                         Model model,
-                        @CookieValue("kaptchaOwner") String kaptchaOwner, // HttpSession session,
+                        @CookieValue("kaptchaOwner") String kaptchaOwner,
+                        // HttpSession session,
                         HttpServletResponse response) {
         // 检查验证码
         // String kaptcha = (String) session.getAttribute("kaptcha");
