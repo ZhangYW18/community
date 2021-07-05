@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
 	<link rel="stylesheet" th:href="@{/css/global.css}" />
 	<link rel="stylesheet" th:href="@{/css/letter.css}" />
-	<title>牛客网-通知详情</title>
+	<title>Notifications</title>
 </head>
 <body>
 	<div class="nk-container">
@@ -64,10 +64,10 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-8">
-						<h6><b class="square"></b> 系统通知</h6>
+						<h6><b class="square"></b> System Notifications</h6>
 					</div>
 					<div class="col-4 text-right">
-						<button type="button" class="btn btn-secondary btn-sm" onclick="back();">返回</button>
+						<button type="button" class="btn btn-secondary btn-sm" onclick="back();">Return</button>
 					</div>
 				</div>
 				
@@ -85,22 +85,22 @@
 							</div>
 							<div class="toast-body">
 								<span th:if="${topic.equals('comment')}">
-									用户
+									User
 									<i th:utext="${map.user.username}">nowcoder</i>
-									评论了你的<b th:text="${map.entityType==1?'帖子':'回复'}">帖子</b>,
-									<a class="text-primary" th:href="@{|/discuss/detail/${map.postId}|}">点击查看</a> !
+									commented in your <b th:text="${map.entityType==1?'thread':'reply'}">帖子</b>,
+									<a class="text-primary" th:href="@{|/discuss/detail/${map.postId}|}"> Click to check</a>
 								</span>
 								<span th:if="${topic.equals('like')}">
-									用户
+									User
 									<i th:utext="${map.user.username}">nowcoder</i>
-									点赞了你的<b th:text="${map.entityType==1?'帖子':'回复'}">帖子</b>,
-									<a class="text-primary" th:href="@{|/discuss/detail/${map.postId}|}">点击查看</a> !
+									liked your <b th:text="${map.entityType==1?'thread':'reply'}">帖子</b>,
+									<a class="text-primary" th:href="@{|/discuss/detail/${map.postId}|}"> Click to check</a>
 								</span>
 								<span th:if="${topic.equals('follow')}">
-									用户
+									User
 									<i th:utext="${map.user.username}">nowcoder</i>
-									关注了你,
-									<a class="text-primary" th:href="@{|/user/profile/${map.user.id}|}">点击查看</a> !
+									has followed you,
+									<a class="text-primary" th:href="@{|/user/profile/${map.user.id}|}"> Click to check</a>
 								</span>
 							</div>
 						</div>
@@ -124,7 +124,7 @@
 		</div>
 
 		<!-- 尾部 -->
-		<footer class="bg-dark">
+		<footer class="bg-dark" th:replace="index::footer">
 			<div class="container">
 				<div class="row">
 					<!-- 二维码 -->

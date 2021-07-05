@@ -15,7 +15,7 @@ function like(btn, entityType, entityId, entityUserId, postId) {
             data = $.parseJSON(data);
             if(data.code == 0) {
                 $(btn).children("i").text(data.likeCount);
-                $(btn).children("b").text(data.likeStatus==1?'已赞':"赞");
+                $(btn).children("b").text(data.likeStatus==1?'Liked':"Like");
             } else {
                 alert(data.msg);
             }
@@ -34,7 +34,7 @@ function setSticky(btn, id) {
         function(data) {
             data = $.parseJSON(data);
             if(data.code == 0) {
-                $(btn).text(data.type==1?'取消置顶':'置顶');
+                $(btn).text(data.type==1?'Undo Pinned':'Set Pinned');
                 $("#postType").attr("value", data.type);
             } else {
                 alert(data.msg);
@@ -54,7 +54,7 @@ function setDigested(btn, id) {
         function(data) {
             data = $.parseJSON(data);
             if(data.code == 0) {
-                $(btn).text(data.status==1?'取消加精':'加精');
+                $(btn).text(data.status==1?'Undo Must-Read':'Set Must-Read');
                 $("#postStatus").attr("value", data.status);
             } else {
                 alert(data.msg);
