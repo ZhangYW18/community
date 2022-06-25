@@ -35,7 +35,7 @@ public class PostScoreRefreshJob implements Job {
     @Autowired
     private ElasticSearchService elasticSearchService;
 
-    // 牛客纪元
+    // The time when the website is created.
     private static final Date epoch;
 
     static {

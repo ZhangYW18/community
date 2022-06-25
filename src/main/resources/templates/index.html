@@ -35,7 +35,7 @@
 							<li class="nav-item ml-3 btn-group-vertical" th:if="${loginUser==null}">
 								<a class="nav-link" th:href="@{/login}">Login</a>
 							</li>
-							<li class="nav-item ml-3 btn-group-vertical" th:if="${loginUser!=null}" sec:authorize="hasAnyAuthority('moderator', 'admin')">
+							<li class="nav-item ml-3 btn-group-vertical" th:if="${loginUser!=null}" sec:authorize="hasAnyAuthority('admin')">
 								<a class="nav-link" th:href="@{/data}">Site Stats</a>
 							</li>
 							<li class="nav-item ml-3 btn-group-vertical dropdown" th:if="${loginUser!=null}">

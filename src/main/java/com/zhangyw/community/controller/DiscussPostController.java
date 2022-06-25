@@ -51,7 +51,7 @@ public class DiscussPostController {
     public String addDiscussPost(String title, String content) {
         User user = hostHolder.getUser();
         if (user == null) {
-            return JsonUtil.getJSONString(403, "你还没有登录哦!");
+            return JsonUtil.getJSONString(403, "You have not logged in!");
         }
 
         DiscussPost post = new DiscussPost();
@@ -73,7 +73,7 @@ public class DiscussPostController {
         String redisKey = RedisKeyUtil.getPostScoreKey();
         redisTemplate.opsForSet().add(redisKey, post.getId());
 
-        return JsonUtil.getJSONString(0, "发布成功!");
+        return JsonUtil.getJSONString(0, "Add Post Success!");
     }
 
     @RequestMapping(path = "/detail/{discussPostId}", method = RequestMethod.GET)

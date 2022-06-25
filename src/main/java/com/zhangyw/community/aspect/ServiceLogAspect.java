@@ -23,9 +23,10 @@ public class ServiceLogAspect {
     @Pointcut("execution(* com.zhangyw.community.service.*.*(..))")
     public void pointcut() {}
 
+    // Set the format of global logs
     @Before("pointcut()")
     public void before(JoinPoint joinPoint) {
-        // 用户[1.2.3.4],在[xxx],访问了[com.zhangyw.community.service.xxx()].
+        // Log format: "User IP[1.2.3.4], visited [com.zhangyw.community.service.xxx()] at [xxx time]".
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (attributes == null) return;
         HttpServletRequest request = attributes.getRequest();

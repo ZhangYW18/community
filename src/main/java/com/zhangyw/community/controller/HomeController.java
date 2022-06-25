@@ -31,7 +31,7 @@ public class HomeController {
     @Autowired
     private LikeService likeService;
 
-    @RequestMapping(path = "/index", method = RequestMethod.GET)
+    @RequestMapping(path = {"/", "/index"}, method = RequestMethod.GET)
     public String getIndexPage(Model model, Page page,
                                @RequestParam(name = "orderWithScore", defaultValue = "false") boolean orderWithScore) {
         // 方法调用前,SpringMVC会自动实例化Model和Page,并将Page注入Model.

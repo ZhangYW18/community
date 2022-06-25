@@ -43,7 +43,7 @@ public class CommentController {
         comment.setCreateTime(new Date());
         commentService.addComment(comment);
 
-        // 触发评论事件
+        // Send comment event
         Event event = new Event()
                 .setTopic(constant.TOPIC_COMMENT)
                 .setUserId(hostHolder.getUser().getId())
@@ -67,7 +67,7 @@ public class CommentController {
                     .setEntityType(constant.ENTITY_TYPE_POST)
                     .setEntityId(discussPostId);
             eventProducer.fireEvent(event);
-            // 计算帖子分数
+            // Calculate the score of a post
             String redisKey = RedisKeyUtil.getPostScoreKey();
             redisTemplate.opsForSet().add(redisKey, discussPostId);
         }
